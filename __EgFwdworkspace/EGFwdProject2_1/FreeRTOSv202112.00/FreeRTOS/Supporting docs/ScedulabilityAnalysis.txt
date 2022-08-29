@@ -1,0 +1,5 @@
+Checking schedulability of the system
+
+Tm1 + Tm2 + Tpt + Tur + Tl1 + Tl2 = ( 0.25   ÷   50 )   ×   2   +   ( 0.5   ÷   20 )   +   ( 1   ÷   100 )   +   ( 5   ÷   50 )   +   ( 12   ÷   100 ) = 0.265 < 1 
+
+Accordingly system is schedulable
