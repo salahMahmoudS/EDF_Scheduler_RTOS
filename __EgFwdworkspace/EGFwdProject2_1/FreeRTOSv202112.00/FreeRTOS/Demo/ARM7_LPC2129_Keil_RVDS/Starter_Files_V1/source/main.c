@@ -74,13 +74,158 @@
 /* Constants for the ComTest demo application tasks. */
 #define mainCOM_TEST_BAUD_RATE	( ( unsigned long ) 115200 )
 
+/* Project definitions and MACROS */
+#define ENABLED									(1)
+#define DISABLED								(2)
+
+ 							 
+#define BUTTON_1_TASK					(DISABLED)
+#define BUTTON_2_TASK					(DISABLED)
+#define TRANSMITTER_TASK	    (DISABLED)
+#define UART_RECEIVER_TASK    (DISABLED)
+#define LOAD_1_SIM_TASK		    (ENABLED )
+#define LOAD_2_SIM_TASK		    (ENABLED)
+
+
+#define BUTTON_1_TASK_PERIOD				(50	)
+#define BUTTON_2_TASK_PERIOD				(50	)
+#define TRANSMITTER_TASK_PERIOD	    (100)
+#define UART_RECEIVER_TASK_PERIOD   (20 )
+#define LOAD_1_SIM_TASK_PERIOD		  (10 ) 
+#define LOAD_2_SIM_TASK_PERIOD		  (100) 
+
+/* Corresponding Toggle pins for each task for logic analyzer*/
+#define TICK_PIN								(PIN0)  /*16*/
+#define BUTTON_1_TASK_PIN				(PIN1)  /*17*/
+#define BUTTON_2_TASK_PIN				(PIN2)  /*18*/
+#define TRANSMITTER_TASK_PIN		(PIN3)  /*19*/
+#define UART_RECEIVER_TASK_PIN	(PIN4)  /*20*/
+#define LOAD_1_SIM_TASK_PIN			(PIN5)  /*21*/
+#define LOAD_2_SIM_TASK_PIN			(PIN6)  /*22*/
+#define IDLE_TASK_PIN						(PIN7)  /*23*/
+#define BUTTON1_SWITCH_PIN			(PIN8)  /*24*/
+#define BUTTON2_SWITCH_PIN			(PIN9)  /*25*/
+
+/* Declare and define global variables */
+TaskHandle_t Button1TaskHandler;
+TaskHandle_t Button2TaskHandler;
+TaskHandle_t TransmitterTaskHandler;
+TaskHandle_t UartTaskHandler;
+TaskHandle_t LoadOneSimulatorTaskHandler;
+TaskHandle_t LoadTwoSimulatorTaskHandler;
+
+const pinState_t Button1OldState;
+const pinState_t Button2OldState;
 
 /*
  * Configure the processor for use with the Keil demo board.  This is very
  * minimal as most of the setup is managed by the settings in the project
  * file.
  */
-static void prvSetupHardware( void );
+static void prvSetupHardware();
+
+
+/* 
+ *Tasks definitoin goes here
+ */
+ 
+void vApplicationTickHook( void )
+{
+			GPIO_write(PORT_0, TICK_PIN		, PIN_IS_HIGH);
+			GPIO_write(PORT_0, TICK_PIN		, PIN_IS_LOW);
+
+}
+
+void vApplicationIdleHook( void )
+{
+			GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_LOW);
+			GPIO_write(PORT_0, BUTTON_1_TASK_PIN			, PIN_IS_LOW);
+			GPIO_write(PORT_0, BUTTON_2_TASK_PIN			, PIN_IS_LOW);
+			GPIO_write(PORT_0, TRANSMITTER_TASK_PIN	, PIN_IS_LOW);
+			GPIO_write(PORT_0, UART_RECEIVER_TASK_PIN, PIN_IS_LOW);
+			GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_LOW);
+			GPIO_write(PORT_0, LOAD_2_SIM_TASK_PIN		, PIN_IS_LOW);
+			GPIO_write(PORT_0, IDLE_TASK_PIN					, PIN_IS_HIGH);
+			
+
+}
+
+
+void Button1Monitor(void * PvParameters)
+{
+	TickType_t xLastWakeTime;
+  xLastWakeTime = xTaskGetTickCount ();
+	GPIO_write(PORT_0, BUTTON_1_TASK_PIN		, PIN_IS_HIGH);
+
+	for (;;)
+	{
+		
+			GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_HIGH);
+			GPIO_write(PORT_0, BUTTON_1_TASK_PIN			, PIN_IS_LOW);
+			GPIO_write(PORT_0, BUTTON_2_TASK_PIN			, PIN_IS_LOW);
+			GPIO_write(PORT_0, TRANSMITTER_TASK_PIN	, PIN_IS_LOW);
+			GPIO_write(PORT_0, UART_RECEIVER_TASK_PIN, PIN_IS_LOW);
+			GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_HIGH);
+			GPIO_write(PORT_0, LOAD_2_SIM_TASK_PIN		, PIN_IS_LOW);
+			GPIO_write(PORT_0, IDLE_TASK_PIN					, PIN_IS_LOW);
+		
+		
+	
+		GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_LOW);
+		vTaskDelayUntil(&xLastWakeTime,LOAD_1_SIM_TASK_PERIOD);
+	}
+}
+
+void LoadOneSimulator(void * PvParameters)
+{
+	TickType_t xLastWakeTime;
+	unsigned long i;
+  xLastWakeTime = xTaskGetTickCount ();
+	GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_HIGH);
+
+	for (;;)
+	{
+		for (i=0; i<863;i++)
+		{
+			GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_HIGH);
+			GPIO_write(PORT_0, BUTTON_1_TASK_PIN			, PIN_IS_LOW);
+			GPIO_write(PORT_0, BUTTON_2_TASK_PIN			, PIN_IS_LOW);
+			GPIO_write(PORT_0, TRANSMITTER_TASK_PIN	, PIN_IS_LOW);
+			GPIO_write(PORT_0, UART_RECEIVER_TASK_PIN, PIN_IS_LOW);
+			GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_HIGH);
+			GPIO_write(PORT_0, LOAD_2_SIM_TASK_PIN		, PIN_IS_LOW);
+			GPIO_write(PORT_0, IDLE_TASK_PIN					, PIN_IS_LOW);
+		}
+		GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_LOW);
+		vTaskDelayUntil(&xLastWakeTime,LOAD_1_SIM_TASK_PERIOD);
+	}
+}
+
+
+void LoadTwoSimulator(void * PvParameters)
+{
+	TickType_t xLastWakeTime;
+	unsigned long i;
+  xLastWakeTime = xTaskGetTickCount ();
+	GPIO_write(PORT_0, LOAD_2_SIM_TASK_PIN		, PIN_IS_HIGH);
+
+	for (;;)
+	{
+		for (i=0; i<2071;i++)
+		{
+			GPIO_write(PORT_0, LOAD_2_SIM_TASK_PIN		, PIN_IS_HIGH);
+			GPIO_write(PORT_0, BUTTON_1_TASK_PIN			, PIN_IS_LOW);
+			GPIO_write(PORT_0, BUTTON_2_TASK_PIN			, PIN_IS_LOW);
+			GPIO_write(PORT_0, TRANSMITTER_TASK_PIN	, PIN_IS_LOW);
+			GPIO_write(PORT_0, UART_RECEIVER_TASK_PIN, PIN_IS_LOW);
+			GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_LOW);
+			GPIO_write(PORT_0, LOAD_2_SIM_TASK_PIN		, PIN_IS_HIGH);
+			GPIO_write(PORT_0, IDLE_TASK_PIN					, PIN_IS_LOW);
+		}
+		GPIO_write(PORT_0, LOAD_2_SIM_TASK_PIN		, PIN_IS_LOW);
+		vTaskDelayUntil(&xLastWakeTime,LOAD_2_SIM_TASK_PERIOD);
+	}
+}
 /*-----------------------------------------------------------*/
 
 
@@ -95,8 +240,35 @@ int main( void )
 
 	
     /* Create Tasks here */
+#if (LOAD_1_SIM_TASK == ENABLED)
+	xTaskCreatePeriodic(	LoadOneSimulator,
+												"Load 1 Simulator",
+												200,
+												(void *)0,
+												1,
+												LOAD_1_SIM_TASK_PERIOD,
+												&LoadOneSimulatorTaskHandler);
+	#endif
 
-
+#if (LOAD_2_SIM_TASK == ENABLED)
+	xTaskCreatePeriodic(	LoadTwoSimulator,
+                "Load 2 Simulator",
+                200,
+                (void *)0,
+								1,
+								LOAD_2_SIM_TASK_PERIOD,
+								&LoadTwoSimulatorTaskHandler);
+	#endif
+								
+#if (BUTTON_1_TASK == ENABLED)
+	xTaskCreatePeriodic(	Button,
+                "Load 2 Simulator",
+                200,
+                (void *)0,
+								1,
+								LOAD_2_SIM_TASK_PERIOD,
+								&LoadTwoSimulatorTaskHandler);
+	#endif
 	/* Now all the tasks have been started - start the scheduler.
 
 	NOTE : Tasks run in system mode and the scheduler runs in Supervisor mode.

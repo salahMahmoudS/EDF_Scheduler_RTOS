@@ -5,16 +5,16 @@
 
 PinConfig_t PinConfig_array[] = 
 							{
-								{PORT_0, PIN0, INPUT},
-								{PORT_0, PIN1, OUTPUT},
-								{PORT_0, PIN2, OUTPUT},
-								{PORT_0, PIN3, OUTPUT},
-								{PORT_0, PIN4, OUTPUT},
-								{PORT_0, PIN5, OUTPUT},
-								{PORT_0, PIN6, OUTPUT},
-								{PORT_0, PIN7, OUTPUT},
-								{PORT_0, PIN8, OUTPUT},
-								{PORT_0, PIN9, OUTPUT},
+								{PORT_0, PIN0, OUTPUT}, /*16*/
+								{PORT_0, PIN1, OUTPUT}, /*17*/
+								{PORT_0, PIN2, OUTPUT}, /*18*/
+								{PORT_0, PIN3, OUTPUT}, /*19*/
+								{PORT_0, PIN4, OUTPUT}, /*20*/
+								{PORT_0, PIN5, OUTPUT}, /*21*/
+								{PORT_0, PIN6, OUTPUT}, /*22*/
+								{PORT_0, PIN7, OUTPUT}, /*23*/
+								{PORT_0, PIN8, OUTPUT}, /*24*/
+								{PORT_0, PIN9, OUTPUT}, /*25*/
 								{PORT_0, PIN10, OUTPUT},
 								{PORT_0, PIN11, OUTPUT},
 								{PORT_0, PIN13, OUTPUT},

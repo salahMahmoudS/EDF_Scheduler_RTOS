@@ -352,6 +352,14 @@ typedef enum
                             void * const pvParameters,
                             UBaseType_t uxPriority,
                             TaskHandle_t * const pxCreatedTask ) PRIVILEGED_FUNCTION;
+														
+		BaseType_t xTaskCreatePeriodic( TaskFunction_t pxTaskCode,
+																		const char * const pcName, /*lint !e971 Unqualified char types are allowed for strings and single characters only. */
+																		const configSTACK_DEPTH_TYPE usStackDepth,
+																		void * const pvParameters,
+																		UBaseType_t uxPriority,
+																		TickType_t period, 
+																		TaskHandle_t * const pxCreatedTask ) PRIVILEGED_FUNCTION;
 #endif
 
 /**
