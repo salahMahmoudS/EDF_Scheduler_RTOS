@@ -1,3 +1,12 @@
+## Project description
+
++ this project to modify existing RTOS implementation to create EDF scheduler
+
++ this project is submission for Udacity advanced embedded systems as part of EGFWD
+
++ I have deleted all project files by mistake and now starting all over again
+
+
 ## Directories:
 
 + The **FreeRTOS/Source** directory contains the FreeRTOS source code, and contains

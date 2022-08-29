@@ -1,5 +1,6 @@
-.\bin\main.o: main.c
+.\bin\main.o: Starter_Files_V1\source\main.c
 .\bin\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\bin\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\bin\main.o: ..\..\Source\include\FreeRTOS.h
 .\bin\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\bin\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -12,11 +13,5 @@
 .\bin\main.o: ..\..\Source\include\mpu_wrappers.h
 .\bin\main.o: ..\..\Source\include\task.h
 .\bin\main.o: ..\..\Source\include\list.h
-.\bin\main.o: ..\Common\include\partest.h
-.\bin\main.o: ..\Common\include\flash.h
-.\bin\main.o: ..\Common\include\comtest2.h
 .\bin\main.o: ..\Common\include\serial.h
-.\bin\main.o: ..\Common\include\PollQ.h
-.\bin\main.o: ..\Common\include\BlockQ.h
-.\bin\main.o: ..\Common\include\semtest.h
-.\bin\main.o: ..\Common\include\dynamic.h
+.\bin\main.o: .\Starter_Files_V1\header\GPIO.h

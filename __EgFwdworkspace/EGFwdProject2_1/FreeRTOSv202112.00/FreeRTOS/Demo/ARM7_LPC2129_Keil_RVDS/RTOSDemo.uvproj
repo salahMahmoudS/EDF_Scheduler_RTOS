@@ -431,19 +431,29 @@
               <FilePath>.\ParTest\ParTest.c</FilePath>
             </File>
             <File>
+              <FileName>serialISR.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\serial\serialISR.s</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Starter_Files_V1\source\GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Starter_Files_V1\source\GPIO_cfg.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
+              <FilePath>.\Starter_Files_V1\source\main.c</FilePath>
             </File>
             <File>
               <FileName>serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\serial\serial.c</FilePath>
-            </File>
-            <File>
-              <FileName>serialISR.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\serial\serialISR.s</FilePath>
+              <FilePath>.\Starter_Files_V1\source\serial.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -479,41 +489,6 @@
               <FileName>portASM.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\..\Source\portable\RVDS\ARM7_LPC21xx\portASM.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Stadard Demo</GroupName>
-          <Files>
-            <File>
-              <FileName>flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>comtest.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\comtest.c</FilePath>
-            </File>
-            <File>
-              <FileName>BlockQ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\BlockQ.c</FilePath>
-            </File>
-            <File>
-              <FileName>dynamic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\dynamic.c</FilePath>
-            </File>
-            <File>
-              <FileName>PollQ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\PollQ.c</FilePath>
-            </File>
-            <File>
-              <FileName>semtest.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\semtest.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -890,7 +865,7 @@
               <MiscControls></MiscControls>
               <Define>ARM7_LPC21xx_KEIL_RVDS KEIL_THUMB_INTERWORK</Define>
               <Undefine></Undefine>
-              <IncludePath>.;..\..\Source\portable\RVDS\ARM7_LPC21xx;..\Common\include;..\..\Source\include</IncludePath>
+              <IncludePath>.;..\..\Source\portable\RVDS\ARM7_LPC21xx;..\Common\include;..\..\Source\include;.\Starter_Files_V1\header;.\Starter_Files_V1\lib</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -945,19 +920,29 @@
               <FilePath>.\ParTest\ParTest.c</FilePath>
             </File>
             <File>
+              <FileName>serialISR.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\serial\serialISR.s</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Starter_Files_V1\source\GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Starter_Files_V1\source\GPIO_cfg.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
+              <FilePath>.\Starter_Files_V1\source\main.c</FilePath>
             </File>
             <File>
               <FileName>serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\serial\serial.c</FilePath>
-            </File>
-            <File>
-              <FileName>serialISR.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\serial\serialISR.s</FilePath>
+              <FilePath>.\Starter_Files_V1\source\serial.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -993,41 +978,6 @@
               <FileName>portASM.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\..\Source\portable\RVDS\ARM7_LPC21xx\portASM.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Stadard Demo</GroupName>
-          <Files>
-            <File>
-              <FileName>flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>comtest.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\comtest.c</FilePath>
-            </File>
-            <File>
-              <FileName>BlockQ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\BlockQ.c</FilePath>
-            </File>
-            <File>
-              <FileName>dynamic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\dynamic.c</FilePath>
-            </File>
-            <File>
-              <FileName>PollQ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\PollQ.c</FilePath>
-            </File>
-            <File>
-              <FileName>semtest.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Common\Minimal\semtest.c</FilePath>
             </File>
           </Files>
         </Group>
