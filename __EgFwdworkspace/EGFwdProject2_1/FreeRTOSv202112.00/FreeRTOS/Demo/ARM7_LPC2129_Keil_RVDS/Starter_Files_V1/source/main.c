@@ -79,15 +79,15 @@
 #define ENABLED									(1)
 #define DISABLED								(2)
 
- 							 
-#define BUTTON_1_TASK					(DISABLED)
-#define BUTTON_2_TASK					(DISABLED)
-#define TRANSMITTER_TASK	    (DISABLED)
-#define UART_RECEIVER_TASK    (DISABLED )
-#define LOAD_1_SIM_TASK		    (DISABLED)
+/* MACROS to enable and disable application tasks */ 							 
+#define BUTTON_1_TASK					(ENABLED)
+#define BUTTON_2_TASK					(ENABLED)
+#define TRANSMITTER_TASK	    (ENABLED)
+#define UART_RECEIVER_TASK    (ENABLED)
+#define LOAD_1_SIM_TASK		    (ENABLED)
 #define LOAD_2_SIM_TASK		    (ENABLED)
 
-
+/* Defining each task period configuration */
 #define BUTTON_1_TASK_PERIOD				(50	)
 #define BUTTON_2_TASK_PERIOD				(50	)
 #define TRANSMITTER_TASK_PERIOD	    (100)
@@ -115,15 +115,16 @@ TaskHandle_t UartTaskHandler;
 TaskHandle_t LoadOneSimulatorTaskHandler;
 TaskHandle_t LoadTwoSimulatorTaskHandler;
 
+/* Message struct that will contain all data to be sent from different tasks */
 typedef struct
 {
-	TickType_t 			timeStamp;
-	pinX_t     			messageSender;
-	unsigned char 	messageLength;
-	char * 					messageString;
-}xMessage;
+	TickType_t 			timeStamp; /* Message timestamp according to ticks */
+	unsigned char   messageSender; /* Sender task */
+	unsigned char 	messageLength; /* Message number of characters */
+	char * 					messageString; /*Message content */
+}xMessage; 
 
-
+/* Defining queue that will be used in the project */
 QueueHandle_t messageQueue1;
 
 /*
@@ -145,8 +146,9 @@ void vApplicationTickHook( void )
 
 }
 
+/* Idle hook will be active when Idle task is active */
 void vApplicationIdleHook( void )
-{
+{			/* Disable all signals except for idle signal */
 			GPIO_write(PORT_0, LOAD_1_SIM_TASK_PIN		, PIN_IS_LOW);
 			GPIO_write(PORT_0, BUTTON_1_TASK_PIN			, PIN_IS_LOW);
 			GPIO_write(PORT_0, BUTTON_2_TASK_PIN			, PIN_IS_LOW);
@@ -163,7 +165,8 @@ void vApplicationIdleHook( void )
 void Button1Monitor(void * PvParameters)
 {
 	xMessage ButtonMessage;
-	char queue1Size;
+	/*char queue1Size;*/
+	/* Old state will contain previous state of Button to identify state change event */
 	static pinState_t Button1OldState = PIN_IS_HIGH;
 	/* variable contains last time task is up*/
 	TickType_t xLastWakeTime;
@@ -186,12 +189,14 @@ void Button1Monitor(void * PvParameters)
 		if (Button1OldState == PIN_IS_HIGH && GPIO_read(PORT_0,BUTTON1_SWITCH_PIN) == PIN_IS_LOW)
 		{
 			ButtonMessage.messageLength = 3;
+			/* Falling edge event from button 1*/
 			ButtonMessage.messageString = "F1\n";
 			Button1OldState = PIN_IS_LOW;
 		}
 		else if (Button1OldState == PIN_IS_LOW && GPIO_read(PORT_0,BUTTON1_SWITCH_PIN) == PIN_IS_HIGH)
 		{
 			ButtonMessage.messageLength = 3;
+			/* Rising Edge event from button 1*/
 			ButtonMessage.messageString = "R1\n";
 			Button1OldState = PIN_IS_HIGH;
 		}
@@ -207,7 +212,7 @@ void Button1Monitor(void * PvParameters)
 			ButtonMessage.timeStamp = xLastWakeTime;
 			
 			xQueueSendToBack(messageQueue1, (void*)&ButtonMessage,3);
-			queue1Size = uxQueueMessagesWaiting(messageQueue1);
+			/*queue1Size = uxQueueMessagesWaiting(messageQueue1);*/
 		}
 	
 		GPIO_write(PORT_0, BUTTON_1_TASK_PIN		, PIN_IS_LOW);
@@ -218,7 +223,7 @@ void Button1Monitor(void * PvParameters)
 void Button2Monitor(void * PvParameters)
 {
 	xMessage ButtonMessage;
-	char queue1Size;
+	/* char queue1Size; */
 	static pinState_t Button2OldState = PIN_IS_HIGH;
 	/* variable contains last time task is up*/
 	TickType_t xLastWakeTime;
@@ -241,6 +246,7 @@ void Button2Monitor(void * PvParameters)
 		if (Button2OldState == PIN_IS_HIGH && GPIO_read(PORT_0,BUTTON2_SWITCH_PIN) == PIN_IS_LOW)
 		{
 			ButtonMessage.messageLength = 3;
+			/* Falling edge event from button 2 */
 			ButtonMessage.messageString = "F2\n";
 			Button2OldState = PIN_IS_LOW;
 		}
@@ -262,7 +268,7 @@ void Button2Monitor(void * PvParameters)
 			
 			ButtonMessage.timeStamp = xLastWakeTime;
 			xQueueSendToBack(messageQueue1, (void*)&ButtonMessage,3);
-			queue1Size = uxQueueMessagesWaiting(messageQueue1);
+			/*queue1Size = uxQueueMessagesWaiting(messageQueue1); */
 		}
 	
 		GPIO_write(PORT_0, BUTTON_2_TASK_PIN		, PIN_IS_LOW);
@@ -273,7 +279,7 @@ void Button2Monitor(void * PvParameters)
 
 void Periodic_Transmitter (void * PvParameters)
 {
-	char queue1Size;
+	/*char queue1Size; */
 	/* variable contains last time task is up*/
 	TickType_t xLastWakeTime;
 	/* variables that will periodic message */
@@ -296,7 +302,7 @@ void Periodic_Transmitter (void * PvParameters)
 		if (messageQueue1 != NULL)
 		{
 			xQueueSendToBack(messageQueue1, (void*)&PeriodicMessage,3);
-			queue1Size = uxQueueMessagesWaiting(messageQueue1);
+		/*	queue1Size = uxQueueMessagesWaiting(messageQueue1); */
 		}
 		GPIO_write(PORT_0, TRANSMITTER_TASK_PIN		, PIN_IS_LOW);
 		vTaskDelayUntil(&xLastWakeTime,TRANSMITTER_TASK_PERIOD);
@@ -306,6 +312,7 @@ void Periodic_Transmitter (void * PvParameters)
 
 void UartReceiver (void * PvParameters)
 {
+	/* Structure to contain received message */
 	xMessage RxedMessage;
 	TickType_t xLastWakeTime;
 	xLastWakeTime = xTaskGetTickCount ();
@@ -324,10 +331,13 @@ void UartReceiver (void * PvParameters)
 			
 		if (messageQueue1 != NULL)
 		{
-			char queue1Size = uxQueueMessagesWaiting(messageQueue1);
+		/*	char queue1Size = uxQueueMessagesWaiting(messageQueue1); */
+			/* While queue still has message inside */
 			while (uxQueueMessagesWaiting(messageQueue1) > 0)
 			{
+				/* Receive data */
 				xQueueReceive(messageQueue1, (void*)&RxedMessage, (TickType_t) (2) == 1);
+				/* Send received data through UART to serial monitor */
 				vSerialPutString(RxedMessage.messageString, RxedMessage.messageLength);
 				
 			}
@@ -347,6 +357,7 @@ void LoadOneSimulator(void * PvParameters)
 
 	for (;;)
 	{
+		/* 5ms loop*/
 		for (i=0; i<996;i++)
 		{
 			GPIO_write(PORT_0, BUTTON_1_TASK_PIN			, PIN_IS_LOW);
@@ -372,7 +383,7 @@ void LoadTwoSimulator(void * PvParameters)
 	GPIO_write(PORT_0, LOAD_2_SIM_TASK_PIN		, PIN_IS_HIGH);
 
 	for (;;)
-	{
+	{ /* 12 ms loop */
 		for (i=0; i<2364;i++)
 		{
 			GPIO_write(PORT_0, BUTTON_1_TASK_PIN			, PIN_IS_LOW);
@@ -401,25 +412,7 @@ int main( void )
 
 	
     /* Create Tasks here */
-	#if (LOAD_1_SIM_TASK == ENABLED)
-		xTaskCreatePeriodic(	LoadOneSimulator,
-													"Load 1 Simulator",
-													200,
-													(void *)0,
-													1,
-													LOAD_1_SIM_TASK_PERIOD,
-													&LoadOneSimulatorTaskHandler);
-	#endif
-
-	#if (LOAD_2_SIM_TASK == ENABLED)
-		xTaskCreatePeriodic(	LoadTwoSimulator,
-													"Load 2 Simulator",
-													200,
-													(void *)0,
-													1,
-													LOAD_2_SIM_TASK_PERIOD,
-													&LoadTwoSimulatorTaskHandler);
-	#endif
+	
 								
 	#if (BUTTON_1_TASK == ENABLED)
 		xTaskCreatePeriodic(	Button1Monitor,
@@ -464,7 +457,27 @@ int main( void )
 													UART_RECEIVER_TASK_PERIOD,
 													&UartTaskHandler);
 	#endif	
-												
+	
+
+#if (LOAD_1_SIM_TASK == ENABLED)
+		xTaskCreatePeriodic(	LoadOneSimulator,
+													"Load 1 Simulator",
+													200,
+													(void *)0,
+													1,
+													LOAD_1_SIM_TASK_PERIOD,
+													&LoadOneSimulatorTaskHandler);
+	#endif
+
+	#if (LOAD_2_SIM_TASK == ENABLED)
+		xTaskCreatePeriodic(	LoadTwoSimulator,
+													"Load 2 Simulator",
+													200,
+													(void *)0,
+													1,
+													LOAD_2_SIM_TASK_PERIOD,
+													&LoadTwoSimulatorTaskHandler);
+	#endif													
 messageQueue1 =  xQueueCreate( 10, sizeof( xMessage ) );
 	/* Now all the tasks have been started - start the scheduler.
 

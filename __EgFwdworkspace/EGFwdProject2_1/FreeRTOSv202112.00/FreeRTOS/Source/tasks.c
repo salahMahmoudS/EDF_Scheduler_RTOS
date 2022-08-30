@@ -2949,7 +2949,7 @@ BaseType_t xTaskIncrementTick( void )
                     {
                         mtCOVERAGE_TEST_MARKER();
                     }
-
+										#if (configUSE_EDF_SCHEDULER == 1)
                     /* Calculate new Task deadline and Place the unblocked task into the appropriate ready
                      * list. */
 										listSET_LIST_ITEM_VALUE( &( ( pxTCB )->xStateListItem ),(( pxTCB)->xTaskPeriod + xTickCount));
@@ -2962,7 +2962,9 @@ BaseType_t xTaskIncrementTick( void )
 										
 										/* Activate context switching */
 										xSwitchRequired = pdTRUE;
-
+										#else
+										/*Do Nothing */
+										#endif
                     /* A task being unblocked cannot cause an immediate
                      * context switch if preemption is turned off. */
                     #if ( configUSE_PREEMPTION == 1 )
