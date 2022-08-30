@@ -500,6 +500,11 @@
               <FileType>5</FileType>
               <FilePath>.\FreeRTOSConfig.h</FilePath>
             </File>
+            <File>
+              <FileName>serial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Starter_Files_V1\header\serial.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -998,6 +1003,11 @@
               <FileName>FreeRTOSConfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\FreeRTOSConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>serial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Starter_Files_V1\header\serial.h</FilePath>
             </File>
           </Files>
         </Group>

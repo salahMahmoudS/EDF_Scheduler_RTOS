@@ -13,8 +13,8 @@ PinConfig_t PinConfig_array[] =
 								{PORT_0, PIN5, OUTPUT}, /*21*/
 								{PORT_0, PIN6, OUTPUT}, /*22*/
 								{PORT_0, PIN7, OUTPUT}, /*23*/
-								{PORT_0, PIN8, OUTPUT}, /*24*/
-								{PORT_0, PIN9, OUTPUT}, /*25*/
+								{PORT_0, PIN8, INPUT}, /*24*/
+								{PORT_0, PIN9, INPUT}, /*25*/
 								{PORT_0, PIN10, OUTPUT},
 								{PORT_0, PIN11, OUTPUT},
 								{PORT_0, PIN13, OUTPUT},
