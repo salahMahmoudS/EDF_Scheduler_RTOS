@@ -410,9 +410,10 @@ int main( void )
 	/* Setup the hardware for use with the Keil demo board. */
 	prvSetupHardware();
 
+#if (configUSE_EDF_SCHEDULER == 1)
 	
+
     /* Create Tasks here */
-	
 								
 	#if (BUTTON_1_TASK == ENABLED)
 		xTaskCreatePeriodic(	Button1Monitor,
@@ -477,7 +478,74 @@ int main( void )
 													1,
 													LOAD_2_SIM_TASK_PERIOD,
 													&LoadTwoSimulatorTaskHandler);
-	#endif													
+	#endif	
+
+
+#else
+
+	#if (BUTTON_1_TASK == ENABLED)
+		xTaskCreate(	Button1Monitor,
+													"Button 1 Monitor",
+													200,
+													(void *)0,
+													1,
+													&Button1TaskHandler);
+	
+	#endif
+	
+													
+	#if (BUTTON_2_TASK == ENABLED)
+		xTaskCreate					(	Button2Monitor,
+													"Button 2 Monitor",
+													200,
+													(void *)0,
+													1,
+													&Button2TaskHandler);
+	
+	#endif
+													
+													
+	#if (TRANSMITTER_TASK == ENABLED)
+	xTaskCreate(	Periodic_Transmitter,
+												"Periodic Transmitter",
+												200,
+												(void *)0,
+												1,
+												&TransmitterTaskHandler);
+	#endif	
+
+	#if (UART_RECEIVER_TASK == ENABLED)
+	   xTaskCreate(	UartReceiver,
+													"UART receiver",
+													200,
+													(void *)0,
+													1,
+													&UartTaskHandler);
+	#endif	
+	
+
+#if (LOAD_1_SIM_TASK == ENABLED)
+		xTaskCreate(	LoadOneSimulator,
+													"Load 1 Simulator",
+													200,
+													(void *)0,
+													1,
+													&LoadOneSimulatorTaskHandler);
+	#endif
+
+	#if (LOAD_2_SIM_TASK == ENABLED)
+		xTaskCreate(	LoadTwoSimulator,
+													"Load 2 Simulator",
+													200,
+													(void *)0,
+													1,
+													&LoadTwoSimulatorTaskHandler);
+	#endif	
+
+
+
+
+#endif													
 messageQueue1 =  xQueueCreate( 10, sizeof( xMessage ) );
 	/* Now all the tasks have been started - start the scheduler.
 

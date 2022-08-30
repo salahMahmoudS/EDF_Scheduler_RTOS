@@ -1230,7 +1230,7 @@ static void prvAddNewTaskToReadyList( TCB_t * pxNewTCB )
             {
                 mtCOVERAGE_TEST_MARKER();
             }
-						#endif
+						#endif /*if (configUSE_EDF_SCHEDULER != 1) */
         }
 
         uxTaskNumber++;
@@ -2963,6 +2963,8 @@ BaseType_t xTaskIncrementTick( void )
 										/* Activate context switching */
 										xSwitchRequired = pdTRUE;
 										#else
+										
+										prvAddTaskToReadyList( pxTCB );
 										/*Do Nothing */
 										#endif
                     /* A task being unblocked cannot cause an immediate
